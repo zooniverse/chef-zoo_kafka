@@ -19,13 +19,28 @@
 
 include_recipe "aws"
 
-node['kafka']['number_of_brokers'].times do |n|
-  node.default['kafka']['devices'] = '/dev/xvdf'
+devices = []
 
-  aws_ebs_volume "zoo_data" do
+node['kafka']['number_of_brokers'].times do |n|
+  devices.push("/dev/xvd#{("f".."z").to_a[n]}")
+
+  log "Attaching: #{devices[n]}" do
+    level :info
+  end
+  
+  aws_ebs_volume "kafka_data-#{n}" do
     size 80
-    device node['kafka']['data_device']
+    device devices[n]
     volume_type "io1"
+    action [ :create, :attach ]
     piops 400
   end
 end
+
+node.override['kafka']['devices'] = devices
+
+log "Devices: #{node['kafka']['devices'].join(",")}" do
+  level :info
+end
+
+include_recipe "zoo-kafka::default"
