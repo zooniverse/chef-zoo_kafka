@@ -1,5 +1,6 @@
 node.override['set_fqdn'] = "*.zooniverse.local"
 node.override['monit']['mail_alerts'] = false
+node.override['kafka']['hostname'] = "kafka1.zooniverse.local"
 node.override['kafka']['zookeeper_hosts'] = [
   "zk1.zooniverse.local:2181",
   "zk2.zooniverse.local:2181",
