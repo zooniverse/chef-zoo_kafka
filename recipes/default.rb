@@ -21,6 +21,7 @@ include_recipe 'kafka'
 
 node['kafka']['number_of_brokers'].times do |n|
   monit_monitrc "kafka-#{n}" do
+    template_source "kafka.monitrc.erb"
     variables({
       pid_file_dir: node['kafka']['install_dir'],
       n: n

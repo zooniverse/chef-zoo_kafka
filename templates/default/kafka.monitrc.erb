@@ -1,4 +1,4 @@
-check process zookeeper with pidfile <%= @zk_install_dir %>/kafka-<%= @n %>.pid 
+check process kafka-<%= @n %> with pidfile <%= @zk_install_dir %>/kafka-<%= @n %>.pid 
   start program = "/usr/sbin/service kafka-<%= @n %> start"
   stop program = "/usr/sbin/service kafka-<%= @n %> stop"
   if failed port 909<%= 2 + @n %> then restart
